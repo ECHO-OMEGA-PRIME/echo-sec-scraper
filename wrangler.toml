@@ -1,0 +1,36 @@
+name = "echo-sec-scraper"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+[ai]
+binding = "AI"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "echo-sec-scraper"
+database_id = "a80f2fef-9a38-4299-8d34-f535f440ec8c"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "59d72fef547743b6aefddd75ac404c7b"
+
+[[services]]
+binding = "BRAIN"
+service = "echo-shared-brain"
+
+[[services]]
+binding = "KNOWLEDGE"
+service = "echo-knowledge-forge"
+
+[[services]]
+binding = "SWARM"
+service = "echo-swarm-brain"
+
+[triggers]
+crons = ["0 */6 * * *", "0 6 * * *"]
+
+[vars]
+ENVIRONMENT = "production"
+USER_AGENT = "Echo Prime Technologies bobbymcwilliams@echo-op.com"
+MAX_SEC_RPS = "10"

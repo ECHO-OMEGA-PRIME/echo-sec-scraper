@@ -1,0 +1,22 @@
+{
+  "name": "echo-sec-scraper",
+  "version": "1.0.0",
+  "description": "SEC EDGAR filing scraper for financial intelligence — monitors filings, parses metadata, AI-summarizes, stores in D1",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "db:create": "wrangler d1 create echo-sec-scraper",
+    "kv:create": "wrangler kv namespace create CACHE",
+    "db:migrate": "wrangler d1 execute echo-sec-scraper --remote --file=schema.sql"
+  },
+  "dependencies": {
+    "hono": "^4.4.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241205.0",
+    "typescript": "^5.5.0",
+    "wrangler": "^3.100.0"
+  }
+}
