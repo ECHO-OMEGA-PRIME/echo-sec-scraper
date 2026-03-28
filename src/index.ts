@@ -34,9 +34,15 @@ interface Env {
   BRAIN: Fetcher;
   KNOWLEDGE: Fetcher;
   SWARM: Fetcher;
+  ECHO_API_KEY: string;
   USER_AGENT: string;
   MAX_SEC_RPS: string;
   ENVIRONMENT: string;
+}
+
+function authOk(c: any): boolean {
+  const key = c.req.header('X-Echo-API-Key') || c.req.header('Authorization')?.replace('Bearer ', '');
+  return key === c.env.ECHO_API_KEY;
 }
 
 interface TrackedCompany {
@@ -829,6 +835,7 @@ app.get("/companies", async (c) => {
 });
 
 app.post("/companies/add", async (c) => {
+  if (!authOk(c)) return c.json({ error: 'Unauthorized' }, 401);
   const db = c.env.DB;
   await initDb(db);
 
@@ -914,6 +921,7 @@ app.post("/companies/add", async (c) => {
 });
 
 app.delete("/companies/:id", async (c) => {
+  if (!authOk(c)) return c.json({ error: 'Unauthorized' }, 401);
   const db = c.env.DB;
   const id = parseInt(c.req.param("id"));
 
@@ -946,6 +954,7 @@ app.delete("/companies/:id", async (c) => {
 // ---- Filing Scan ----------------------------------------------------------
 
 app.post("/scan", async (c) => {
+  if (!authOk(c)) return c.json({ error: 'Unauthorized' }, 401);
   const env = c.env;
   await initDb(env.DB);
   await seedDefaults(env.DB);
@@ -1125,6 +1134,7 @@ app.get("/filings/:accession", async (c) => {
 });
 
 app.post("/filings/:accession/analyze", async (c) => {
+  if (!authOk(c)) return c.json({ error: 'Unauthorized' }, 401);
   const env = c.env;
   await initDb(env.DB);
 
@@ -1251,6 +1261,7 @@ app.get("/digest", async (c) => {
 });
 
 app.post("/digest/generate", async (c) => {
+  if (!authOk(c)) return c.json({ error: 'Unauthorized' }, 401);
   const env = c.env;
   await initDb(env.DB);
 
@@ -1262,6 +1273,7 @@ app.post("/digest/generate", async (c) => {
 // ---- Init / Seed ----------------------------------------------------------
 
 app.post("/init", async (c) => {
+  if (!authOk(c)) return c.json({ error: 'Unauthorized' }, 401);
   const db = c.env.DB;
   await initDb(db);
   const seeded = await seedDefaults(db);
