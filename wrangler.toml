@@ -34,3 +34,7 @@ crons = ["0 */6 * * *", "0 6 * * *"]
 ENVIRONMENT = "production"
 USER_AGENT = "Echo Prime Technologies bobbymcwilliams@echo-op.com"
 MAX_SEC_RPS = "10"
+
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "echo_metrics"
